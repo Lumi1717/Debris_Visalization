@@ -1,9 +1,8 @@
-import json
-import os 
+import pandas as pd
+from skyfield.api import EarthSatellite, load
 
-
-data_folder = "data"
-file_path = os.path.join(data_folder, "tle_data.txt")
+# File path to your .txt file containing TLE data
+file_path = "data/tle_data.txt"
 
 # Read the file
 with open(file_path, 'r') as file:
@@ -15,20 +14,35 @@ for i in range(0, len(lines), 3):
     name = lines[i].strip()
     line1 = lines[i + 1].strip()
     line2 = lines[i + 2].strip()
-    satellites.append({
-        "Satellite Name": name,
-        "Line1": line1,
-        "Line2": line2
+    satellites.append((name, line1, line2))
+
+# Load Skyfield timescale
+ts = load.timescale()
+
+# Extract satellite parameters
+satellite_info = []
+for name, line1, line2 in satellites:
+    satellite = EarthSatellite(line1, line2, name, ts)
+    satellite_info.append({
+        "Satellite Name": satellite.name,
+        "NORAD ID": satellite.model.satnum,
+        "Inclination (°)": satellite.model.inclo,
+        "RAAN (°)": satellite.model.nodeo,
+        "Eccentricity": satellite.model.ecco,
+        "Arg. of Perigee (°)": satellite.model.argpo,
+        "Mean Anomaly (°)": satellite.model.mo,
+        "Mean Motion (revs/day)": satellite.model.no_kozai,
+        "Epoch": satellite.epoch.utc_iso()
     })
 
-# Print parsed satellite data
-print("Satellites:", satellites)
+# Convert to a DataFrame
+df = pd.DataFrame(satellite_info)
+
+# Display the structured DataFrame
+print(df)
 
 # Save the data into a JSON file
-output_file_path = os.path.join(data_folder, "satellite_data.json")
-
-
-with open(output_file_path, 'w') as json_file:
-    json.dump(satellites, json_file, indent=4)
-
-print(f"Satellite data saved to {output_file_path}")
+# Save the structured data to a CSV file
+output_path = "data/processed_satellite_data.csv"
+df.to_csv(output_path, index=False)
+print(f"Data saved to {output_path}")
