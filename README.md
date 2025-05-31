@@ -1,12 +1,30 @@
-# Satellite Tracker
+# Satellite Tracker and Visualization
 
-A Python package for processing and analyzing satellite TLE (Two-Line Element) data.
+A comprehensive system for processing satellite TLE (Two-Line Element) data and visualizing satellite orbits in real-time 3D.
 
-## Features
+## Overview
+
+This project consists of two main components:
+1. A Python backend for processing satellite TLE data
+2. A React/Three.js frontend for real-time 3D visualization
+
+## Backend Features
 
 - Process TLE data from text files
 - Calculate satellite positions using orbital elements
 - Generate time series data for satellite trajectories
+- Extract TLE data from various online sources
+
+## Frontend Features
+
+- 🌍 Realistic Earth visualization with procedural textures
+- 🛰️ Real-time satellite orbit visualization using actual orbital parameters
+- 🎨 Color-coded satellites with orbital trails
+- 🎮 Interactive camera controls
+- ⚡ Adjustable simulation speed
+- 📊 Detailed satellite information panel
+- 🌟 Dynamic starfield background
+- 💫 Atmospheric glow effect
 
 ## Project Structure
 
@@ -17,7 +35,8 @@ satellite_tracker/
 │   ├── utils/            # Utility functions
 │   │   └── orbital_utils.py
 │   └── processing/       # Data processing modules
-│       └── data_processor.py
+│       ├── data_processor.py
+│       └── tle_extractor.py
 ├── tests/                # Test files
 ├── main.py              # Main entry point
 ├── requirements.txt     # Project dependencies
@@ -25,6 +44,8 @@ satellite_tracker/
 ```
 
 ## Installation
+
+### Backend Setup
 
 1. Clone the repository:
 ```bash
@@ -43,23 +64,51 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### Frontend Setup
+
+The frontend is deployed at [ahlam.fyi/space](https://ahlam.fyi/space) and uses:
+- React
+- Three.js
+- PapaParse (for CSV data parsing)
+- Tailwind CSS
+
 ## Usage
 
-1. Place your TLE data file in the `data` directory as `tle_data.txt`. The file should contain satellite data in the following format:
-```
-SATELLITE NAME
-TLE LINE 1
-TLE LINE 2
-```
+### Backend Processing
 
-2. Run the main script:
+1. Run the main script to process TLE data:
 ```bash
 python main.py
 ```
 
 This will:
+- Extract TLE data from online sources
 - Process the TLE data
 - Generate time series data for satellite positions
+- Save results to CSV files
+
+### Frontend Visualization
+
+The visualization is available at [ahlam.fyi/space](https://ahlam.fyi/space) with the following features:
+
+#### Controls
+- Move mouse to rotate the camera view
+- Use the speed slider to control orbital motion speed
+- Click on satellites in the info panel to select them
+- Toggle play/pause to control the simulation
+
+#### Technical Details
+
+##### Earth Visualization
+- Procedurally generated Earth texture with continents and oceans
+- Atmospheric glow effect
+- Realistic lighting and shadows
+
+##### Satellite System
+- Each satellite is represented by a 3D cube with unique colors
+- Orbital trails showing the satellite's path
+- Real-time position updates based on orbital mechanics
+- Color-coded information panel with satellite details
 
 ## Output Files
 
@@ -68,11 +117,28 @@ This will:
 
 ## Dependencies
 
+### Backend
 - numpy: Numerical computing
 - pandas: Data manipulation
 - astropy: Astronomical calculations
 - skyfield: Satellite position calculations
+- requests: HTTP requests for TLE data
 
-## License
+### Frontend
+- React: UI framework
+- Three.js: 3D graphics
+- PapaParse: CSV parsing
+- Tailwind CSS: Styling
 
-[Your chosen license] 
+## Performance Considerations
+
+- Efficient use of Three.js geometries and materials
+- Optimized orbital calculations
+- Limited trail points to maintain performance
+- Proper cleanup of Three.js resources on component unmount
+
+## Notes
+- The visualization requires a CSV file with satellite data in the specified format
+- The visualization is optimized for modern browsers with WebGL support
+- The Earth texture is procedurally generated and may vary slightly between renders
+
