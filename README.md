@@ -64,14 +64,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Frontend Setup
-
-The frontend is deployed at [ahlam.fyi/space](https://ahlam.fyi/space) and uses:
-- React
-- Three.js
-- PapaParse (for CSV data parsing)
-- Tailwind CSS
-
 ## Usage
 
 ### Backend Processing
